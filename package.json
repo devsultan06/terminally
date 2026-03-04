@@ -1,0 +1,23 @@
+{
+  "name": "terminally",
+  "version": "1.0.0",
+  "description": "AI-Powered Intelligent Terminal Assistant",
+  "main": "src/cli/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ai",
+    "terminal",
+    "assistant",
+    "shell",
+    "command-line",
+    "nl-to-cli"
+  ],
+  "author": "Terminally Team",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "terminally": "src/cli/index.js"
+  }
+}

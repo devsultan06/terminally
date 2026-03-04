@@ -1,0 +1,43 @@
+{
+  "name": "terminally-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query-devtools": "^5.91.2",
+    "chart.js": "^4.5.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.563.0",
+    "next": "16.0.8",
+    "react": "19.2.1",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "19.2.1",
+    "react-hook-form": "^7.71.1",
+    "react-leaflet": "^5.0.0",
+    "react-toastify": "^11.0.5",
+    "swiper": "^12.0.3",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.21",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.8",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5"
+  }
+}
