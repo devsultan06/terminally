@@ -454,19 +454,19 @@ function DocsContent() {
 
   return (
     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
-      {/* Sidebar */}
+      {/* Sidebar / Category Bar */}
       <aside className="lg:w-64 flex-shrink-0">
-        <div className="sticky top-40 h-[calc(100vh-200px)] overflow-y-auto pr-4 scrollbar-hide">
-          <div>
-            <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
+        <div className="lg:sticky lg:top-40 lg:h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-4 scrollbar-hide">
+          <div className="mb-8 lg:mb-12 overflow-x-auto lg:overflow-visible scrollbar-hide">
+            <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4 lg:mb-6 whitespace-nowrap lg:whitespace-normal">
               Documentation
             </h3>
-            <nav className="flex flex-col gap-1.5">
+            <nav className="flex lg:flex-col gap-2 min-w-max lg:min-w-0">
               {docsContent.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-all border ${
+                  className={`text-left px-5 py-2.5 rounded-xl text-xs font-bold transition-all border whitespace-nowrap ${
                     activeTab === item.id
                       ? "bg-orange-500/10 text-orange-500 border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.1)]"
                       : "text-zinc-500 hover:text-white border-transparent"
@@ -478,7 +478,7 @@ function DocsContent() {
             </nav>
           </div>
 
-          <div className="mt-8 glass p-6 border-zinc-800/50">
+          <div className="hidden lg:block glass p-6 border-zinc-800/50">
             <p className="text-[10px] text-zinc-500 font-bold mb-2 uppercase italic tracking-widest">
               Latest Release
             </p>
@@ -513,16 +513,20 @@ function DocsContent() {
                   {section.isArchitecture && (
                     <div className="my-12 p-8 border border-zinc-800 rounded-3xl bg-zinc-900/20 backdrop-blur-sm relative overflow-hidden">
                       <div className="flex flex-col items-center gap-6 relative z-10">
-                        <div className="w-full flex justify-between items-center px-4">
-                          <div className="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg text-[10px] font-black text-orange-400 uppercase tracking-widest">
+                        <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 px-4 text-center">
+                          <div className="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg text-[10px] font-black text-orange-400 uppercase tracking-widest w-full md:w-auto">
                             User Intent
                           </div>
-                          <div className="text-zinc-700">→</div>
-                          <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-lg text-[10px] font-black text-blue-400 uppercase tracking-widest">
+                          <div className="text-zinc-700 md:rotate-0 rotate-90">
+                            →
+                          </div>
+                          <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-lg text-[10px] font-black text-blue-400 uppercase tracking-widest w-full md:w-auto">
                             Context Check
                           </div>
-                          <div className="text-zinc-700">→</div>
-                          <div className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-lg text-[10px] font-black text-purple-400 uppercase tracking-widest">
+                          <div className="text-zinc-700 md:rotate-0 rotate-90">
+                            →
+                          </div>
+                          <div className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-lg text-[10px] font-black text-purple-400 uppercase tracking-widest w-full md:w-auto">
                             AI Engine
                           </div>
                         </div>
