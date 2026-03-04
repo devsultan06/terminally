@@ -19,6 +19,8 @@ const ResponseSchema = z.object({
 
 import config from "../core/config.js";
 
+import shell from "shelljs";
+
 export const getCommandFromAI = async (prompt) => {
   const apiKey = config.get("apiKey") || process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -29,11 +31,28 @@ export const getCommandFromAI = async (prompt) => {
     );
   }
 
+  // Get Context (ls -F and Project Detection)
+  const files = shell.ls("-F").join("\n");
+  const projectType = [];
+  if (shell.test("-f", "package.json")) projectType.push("Node.js");
+  if (shell.test("-f", "requirements.txt") || shell.test("-f", "setup.py"))
+    projectType.push("Python");
+  if (shell.test("-f", "Dockerfile")) projectType.push("Docker");
+  if (shell.test("-d", ".git")) projectType.push("Git");
+
+  const fullPrompt = `CONTEXT:
+OS: ${process.platform}
+Project Type: ${projectType.join(", ") || "Unknown"}
+Files in Current Directory:
+${files}
+
+USER REQUEST: ${prompt}`;
+
   const ai = new GoogleGenAI({ apiKey });
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: prompt,
+    contents: fullPrompt,
     config: {
       systemInstruction: `You are Terminally, an expert terminal assistant.
 Your goal is to convert natural language into high-quality, safe, and efficient bash/zsh commands.

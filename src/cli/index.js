@@ -19,8 +19,13 @@ const program = new Command();
 program
   .name("terminally")
   .description("AI-Powered Intelligent Terminal Assistant")
-  .version("1.0.0")
-  .option("-s, --simulate", "Enable simulation mode (dry-run)");
+  .version("1.0.4")
+  .option("-s, --simulate", "Enable simulation mode (dry-run)")
+  .option("-e, --explain", "Automatically show detailed explanations")
+  .option(
+    "-y, --no-confirm",
+    "Execute commands without confirmation (Use with caution!)",
+  );
 
 const runConfig = async () => {
   const questions = [
@@ -48,14 +53,37 @@ const runConfig = async () => {
   if (answers.apiKey) config.set("apiKey", answers.apiKey);
   config.set("safetyMode", answers.safetyMode);
   config.set("explanationMode", answers.explanationMode);
+  config.set("autoErrorFix", answers.autoErrorFix);
   console.log(chalk.green("\n✔ Preferences saved successfully!"));
 };
 
-// Configuration Command (Preferences only)
+// Configuration Command (Interactive or Direct)
 program
   .command("config")
   .description("Manage your Terminally preferences")
-  .action(runConfig);
+  .argument("[action]", "Action to perform (e.g., 'set')")
+  .argument("[key]", "Preference key (e.g., 'apiKey')")
+  .argument("[value]", "New value for the key")
+  .action(async (action, key, value) => {
+    if (action === "set" && key && value) {
+      config.set(key, value);
+      console.log(chalk.green(`\n✔ ${key} saved successfully!`));
+      return;
+    }
+
+    // Default to interactive mode
+    await runConfig();
+  });
+
+// Ask Command (Explicit one-off)
+program
+  .command("ask")
+  .description("Directly ask for a command without entering interactive mode")
+  .argument("<query...>", "Natural language query")
+  .action(async (query) => {
+    const fullQuery = query.join(" ");
+    await processQuery(fullQuery);
+  });
 
 // Doctor Command
 program
@@ -142,57 +170,60 @@ const processQuery = async (fullQuery, overrideExplanation = null) => {
       const execResult = await executeCommand(result.command);
 
       if (!execResult.success && execResult.stderr) {
-        console.log(
-          chalk.yellow(
-            "\n💡 Command failed. Would you like Terminally to diagnose the error?",
-          ),
-        );
-        const { diagnose } = await inquirer.prompt([
-          {
-            type: "confirm",
-            name: "diagnose",
-            message: "Run Smart Diagnosis?",
-            default: true,
-          },
-        ]);
+        const autoFix = config.get("autoErrorFix");
+        if (autoFix) {
+          console.log(
+            chalk.yellow(
+              "\n💡 Command failed. Would you like Terminally to diagnose the error?",
+            ),
+          );
+          const { diagnose } = await inquirer.prompt([
+            {
+              type: "confirm",
+              name: "diagnose",
+              message: "Run Smart Diagnosis?",
+              default: true,
+            },
+          ]);
 
-        if (diagnose) {
-          const diagnosisSpinner = ora(gray("Diagnosing error...")).start();
-          try {
-            const fix = await diagnoseErrorFromAI(
-              result.command,
-              execResult.stderr,
-            );
-            diagnosisSpinner.stop();
+          if (diagnose) {
+            const diagnosisSpinner = ora(gray("Diagnosing error...")).start();
+            try {
+              const fix = await diagnoseErrorFromAI(
+                result.command,
+                execResult.stderr,
+              );
+              diagnosisSpinner.stop();
 
-            console.log(
-              boxen(
-                `${chalk.green.bold(fix.command)}\n\n${chalk.white.bold("🔧 FIX ANALYSIS")}\n${fix.explanation}`,
+              console.log(
+                boxen(
+                  `${chalk.green.bold(fix.command)}\n\n${chalk.white.bold("🔧 FIX ANALYSIS")}\n${fix.explanation}`,
+                  {
+                    padding: 1,
+                    margin: 1,
+                    borderColor: "#F97316",
+                    title: orange(" AI Diagnosis & Fix "),
+                  },
+                ),
+              );
+
+              const { runFix } = await inquirer.prompt([
                 {
-                  padding: 1,
-                  margin: 1,
-                  borderColor: "#F97316",
-                  title: orange(" AI Diagnosis & Fix "),
+                  type: "confirm",
+                  name: "runFix",
+                  message: "Execute this fix?",
+                  default: true,
                 },
-              ),
-            );
+              ]);
 
-            const { runFix } = await inquirer.prompt([
-              {
-                type: "confirm",
-                name: "runFix",
-                message: "Execute this fix?",
-                default: true,
-              },
-            ]);
-
-            if (runFix) {
-              await executeCommand(fix.command);
+              if (runFix) {
+                await executeCommand(fix.command);
+              }
+            } catch (err) {
+              diagnosisSpinner.fail(
+                chalk.red("Diagnosis failed: " + err.message),
+              );
             }
-          } catch (err) {
-            diagnosisSpinner.fail(
-              chalk.red("Diagnosis failed: " + err.message),
-            );
           }
         }
       }
@@ -335,12 +366,30 @@ program
   .argument("[query...]", "Natural language query for the assistant")
   .action(async (query, options) => {
     if (options.simulate) simulateMode = true;
+    if (options.explain) config.set("explanationMode", true);
 
     if (!query || query.length === 0) {
       await startInteractiveMode();
     } else {
       const fullQuery = query.join(" ");
-      await processQuery(fullQuery);
+
+      if (options.noConfirm) {
+        const spinner = ora(gray("Asking Gemini...")).start();
+        try {
+          const result = await getCommandFromAI(fullQuery);
+          spinner.stop();
+          console.log(
+            chalk.green.bold("\n🚀 Running (No-Confirm Mode): ") +
+              chalk.white(result.command),
+          );
+          await executeCommand(result.command);
+        } catch (error) {
+          if (spinner.isSpinning) spinner.stop();
+          console.error(chalk.red("Error: " + error.message));
+        }
+      } else {
+        await processQuery(fullQuery);
+      }
     }
   });
 

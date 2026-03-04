@@ -243,9 +243,9 @@ const docsContent: DocCategory[] = [
     title: "Changelog",
     sections: [
       {
-        title: "v1.0.4 — The Safety Update",
+        title: "v1.0.4 — The Intelligence Update",
         content:
-          "• Added: New Risk Detection Engine (RDE).\n• Added: 'YES' confirmation for destructive commands.\n• Improved: Context-aware responses for multi-file Git repos.\n• Fixed: ZSH completion conflicts.",
+          "• Added: Visual Dry-Run (Simulation) with predictive data.\n• Added: Smart Diagnosis for AI-powered error recovery.\n• Added: Context Awareness for Git, Node, and Python projects.\n• Added: Explicit 'ask' command and '--no-confirm' safety bypass.",
       },
       {
         title: "v1.0.0 — Initial Launch",
