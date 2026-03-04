@@ -1,5 +1,5 @@
 {
-  "name": "terminally",
+  "name": "terminally-ai",
   "version": "1.0.0",
   "description": "AI-Powered Intelligent Terminal Assistant",
   "main": "src/cli/index.js",

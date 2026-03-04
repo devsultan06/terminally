@@ -27,6 +27,12 @@ program
   .action(async () => {
     const questions = [
       {
+        type: "input",
+        name: "apiKey",
+        message: "Enter your Gemini API Key (leave empty to keep current):",
+        default: config.get("apiKey"),
+      },
+      {
         type: "confirm",
         name: "safetyMode",
         message: "Enable Safety Mode? (Blocks high-risk commands)",
@@ -41,6 +47,7 @@ program
     ];
 
     const answers = await inquirer.prompt(questions);
+    if (answers.apiKey) config.set("apiKey", answers.apiKey);
     config.set("safetyMode", answers.safetyMode);
     config.set("explanationMode", answers.explanationMode);
     console.log(chalk.green("\n✔ Preferences saved successfully!"));

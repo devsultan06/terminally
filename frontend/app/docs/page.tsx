@@ -36,10 +36,10 @@ const docsContent: DocCategory[] = [
         content:
           "The fastest way to get Terminally on your system. Choose your preferred package manager.",
         code: {
-          pnpm: "pnpm add -g terminally",
-          npm: "npm install -g terminally",
-          yarn: "yarn global add terminally",
-          bun: "bun add -g terminally",
+          pnpm: "pnpm add -g terminally-ai",
+          npm: "npm install -g terminally-ai",
+          yarn: "yarn global add terminally-ai",
+          bun: "bun add -g terminally-ai",
         },
       },
       {

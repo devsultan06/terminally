@@ -131,7 +131,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("npm install -g terminally");
+    navigator.clipboard.writeText("npm install -g terminally-ai");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -223,7 +223,7 @@ export default function Home() {
                   $
                 </span>
                 <code className="text-zinc-200 font-mono text-sm md:text-base">
-                  npm install -g terminally
+                  npm install -g terminally-ai
                 </code>
               </div>
               <button

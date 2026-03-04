@@ -10,9 +10,17 @@ const ResponseSchema = z.object({
   riskAnalysis: z.string(),
 });
 
+import config from "../core/config.js";
+
 export const getCommandFromAI = async (prompt) => {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("GEMINI_API_KEY not set in .env");
+  const apiKey = config.get("apiKey") || process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "GEMINI_API_KEY is not set.\n\n" +
+        "1. Get a free key at https://aistudio.google.com/app/apikey\n" +
+        "2. Run 'terminally config' to save your key.",
+    );
+  }
 
   const ai = new GoogleGenAI({ apiKey });
 
