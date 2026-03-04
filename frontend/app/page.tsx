@@ -452,7 +452,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-10">
             <div className="flex flex-wrap gap-8 items-center justify-center">
               <a
-                href="https://github.com/terminally-ai"
+                href="https://github.com/terminally"
                 className="flex items-center gap-4 group"
               >
                 <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center group-hover:bg-white transition-colors">

@@ -89,7 +89,7 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-6">
             <a
-              href="https://github.com/terminally-ai"
+              href="https://github.com/terminally"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2"
@@ -172,7 +172,7 @@ const Navbar = () => {
               Install CLI
             </button>
             <a
-              href="https://github.com/terminally-ai"
+              href="https://github.com/terminally"
               className="text-zinc-500 text-center text-xs font-bold uppercase tracking-widest pt-2 italic"
             >
               Star on GitHub
