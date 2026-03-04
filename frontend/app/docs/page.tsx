@@ -46,7 +46,7 @@ const docsContent: DocCategory[] = [
         title: "From Source",
         content:
           "For developers wanting to hack on Terminally or run the absolute latest build from main.",
-        code: "git clone https://github.com/terminally/termai.git\ncd termai\nnpm install\nnpm run build\nnpm link",
+        code: "git clone https://github.com/devsultan06/terminally/termai.git\ncd termai\nnpm install\nnpm run build\nnpm link",
       },
       {
         title: "Verify Installation",

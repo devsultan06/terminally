@@ -30,4 +30,4 @@ The vision for **Terminally** is to become the definitive "Human-to-Shell" inter
 
 ---
 
-Have a feature request? [Open an issue](https://github.com/terminally/issues) and let us know!
+Have a feature request? [Open an issue](https://github.com/devsultan06/terminally/issues) and let us know!

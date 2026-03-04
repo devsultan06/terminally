@@ -109,7 +109,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://github.com/terminally"
+                href="https://github.com/devsultan06/terminally"
                 className="hover:text-white transition-colors"
               >
                 Open Source

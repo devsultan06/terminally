@@ -6,7 +6,7 @@ Thank you for your interest in contributing to **Terminally**! We welcome contri
 
 ### 1. Reporting Bugs
 
-- Check the [Issues](https://github.com/terminally/issues) to see if the bug has already been reported.
+- Check the [Issues](https://github.com/devsultan06/terminally/issues) to see if the bug has already been reported.
 - If not, create a new issue with a clear title and description.
 - Include steps to reproduce and your environment details (OS, Node.js version, shell).
 
@@ -33,4 +33,4 @@ Thank you for your interest in contributing to **Terminally**! We welcome contri
 
 ## Join the Community
 
-Questions? Join our [Discord](https://discord.gg/terminally) or follow us on [Twitter](https://twitter.com/terminally_ai).
+Questions? Join our [Discord](https://discord.gg/terminally) or follow us on [Twitter](https://twitter.com/terminally).
