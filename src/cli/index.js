@@ -9,6 +9,7 @@ import ora from "ora";
 import boxen from "boxen";
 import { verifyCommandSafety } from "../core/safety.js";
 import { executeCommand } from "../core/executor.js";
+import { runDoctor } from "../core/doctor.js";
 
 const orange = chalk.hex("#F97316");
 const gray = chalk.gray;
@@ -51,6 +52,14 @@ program
     config.set("safetyMode", answers.safetyMode);
     config.set("explanationMode", answers.explanationMode);
     console.log(chalk.green("\n✔ Preferences saved successfully!"));
+  });
+
+// Doctor Command
+program
+  .command("doctor")
+  .description("Perform a system and configuration health check")
+  .action(async () => {
+    await runDoctor();
   });
 
 const processQuery = async (fullQuery) => {

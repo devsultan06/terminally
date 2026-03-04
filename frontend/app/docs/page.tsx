@@ -46,7 +46,7 @@ const docsContent: DocCategory[] = [
         title: "From Source",
         content:
           "For developers wanting to hack on Terminally or run the absolute latest build from main.",
-        code: "git clone https://github.com/devsultan06/terminally/termai.git\ncd termai\nnpm install\nnpm run build\nnpm link",
+        code: "git clone https://github.com/devsultan06/terminally.git\ncd terminally\nnpm install\nnpm link",
       },
       {
         title: "Verify Installation",
@@ -306,52 +306,57 @@ const docsContent: DocCategory[] = [
 ];
 
 const CodeHighlight = ({ code }: { code: string }) => {
-  // Simple CLI syntax highlighter
-  const parts = code.split(/(\s+)/);
+  // Split by newline first to preserve line structure
+  const lines = code.split("\n");
+
   return (
     <>
-      {parts.map((part, i) => {
-        if (/^(npm|pnpm|yarn|bun|git|terminally|lsof|kill)$/.test(part)) {
-          return (
-            <span key={i} className="text-purple-400 font-bold">
-              {part}
-            </span>
-          );
-        }
-        if (
-          /^(install|add|create|push|commit|checkout|clone|run|global|set|ask|doctor)$/.test(
-            part,
-          )
-        ) {
-          return (
-            <span key={i} className="text-green-400 italic">
-              {part}
-            </span>
-          );
-        }
-        if (/^-/.test(part)) {
-          return (
-            <span key={i} className="text-orange-400">
-              {part}
-            </span>
-          );
-        }
-        if (part.includes("terminally-")) {
-          return (
-            <span
-              key={i}
-              className="text-blue-400 underline decoration-blue-500/30"
-            >
-              {part}
-            </span>
-          );
-        }
-        return (
-          <span key={i} className="text-zinc-300">
-            {part}
-          </span>
-        );
-      })}
+      {lines.map((line, lineIdx) => (
+        <div key={lineIdx} className="block">
+          {line.split(/(\s+)/).map((part, i) => {
+            if (/^(npm|pnpm|yarn|bun|git|terminally|lsof|kill)$/.test(part)) {
+              return (
+                <span key={i} className="text-purple-400 font-bold">
+                  {part}
+                </span>
+              );
+            }
+            if (
+              /^(install|add|create|push|commit|checkout|clone|run|global|set|ask|doctor)$/.test(
+                part,
+              )
+            ) {
+              return (
+                <span key={i} className="text-green-400 italic">
+                  {part}
+                </span>
+              );
+            }
+            if (/^-/.test(part)) {
+              return (
+                <span key={i} className="text-orange-400">
+                  {part}
+                </span>
+              );
+            }
+            if (part.includes("terminally-")) {
+              return (
+                <span
+                  key={i}
+                  className="text-blue-400 underline decoration-blue-500/30"
+                >
+                  {part}
+                </span>
+              );
+            }
+            return (
+              <span key={i} className="text-zinc-300">
+                {part}
+              </span>
+            );
+          })}
+        </div>
+      ))}
     </>
   );
 };
@@ -431,8 +436,10 @@ const CodeBlock = ({ code }: { code: string | { [key: string]: string } }) => {
 
       <div className="p-6 font-mono text-sm relative">
         <div className="flex items-start gap-4">
-          <span className="text-orange-500 font-bold select-none">$</span>
-          <div className="text-zinc-300 leading-relaxed block overflow-x-auto scrollbar-hide">
+          <span className="text-orange-500 font-bold select-none mt-0.5">
+            $
+          </span>
+          <div className="text-zinc-300 leading-relaxed block overflow-x-auto scrollbar-hide whitespace-pre-wrap">
             <CodeHighlight code={displayCode} />
           </div>
         </div>
