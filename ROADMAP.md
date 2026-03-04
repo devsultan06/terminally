@@ -11,7 +11,7 @@ The vision for **Terminally** is to become the definitive "Human-to-Shell" inter
 
 ## 🟡 Phase 2: Knowledge & Context (Q2 2026)
 
-- [ ] **Context-Aware Prompts**: Better detection of local `package.json`, `.git`, and OS environments.
+- [x] **Context-Aware Prompts**: Better detection of local `package.json`, `.git`, and OS environments.
 - [ ] **Simulation Mode**: Visual "Dry Run" showing file impacts before execution.
 - [ ] **History & Search**: Ask questions about your own command history.
 - [ ] **Multi-Shell Support**: Better ZSH and Bash compatibility for obscure syntax.
@@ -19,7 +19,8 @@ The vision for **Terminally** is to become the definitive "Human-to-Shell" inter
 ## 🟠 Phase 3: Error Recovery & Intelligence (Q3 2026)
 
 - [ ] **Auto-Fix Mode**: Automatically analyze stderr and suggest one-line fixes.
-- [ ] **Learning Assistant**: Deep breakdown of flags and command logic for beginners.
+- [x] **Learning Assistant**: Deep breakdown of flags and command logic for beginners. (Explanation Mode)
+- [x] **Doctor / Health Check**: One-click diagnostics for environment issues.
 - [ ] **IDE Integration**: VS Code extension for inline terminal assistance.
 
 ## 🔴 Phase 4: Ecosystem & Platform (2027)
