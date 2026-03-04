@@ -1,6 +1,6 @@
 {
   "name": "terminally-ai",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AI-Powered Intelligent Terminal Assistant",
   "main": "src/cli/index.js",
   "scripts": {
