@@ -3,11 +3,18 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod"; // 👈 add this
 
 const ResponseSchema = z.object({
-  // 👈 add this block
   command: z.string(),
   explanation: z.string(),
   riskScore: z.number().min(1).max(10),
   riskAnalysis: z.string(),
+  simulation: z
+    .object({
+      fileCount: z.string().optional(),
+      spaceImpact: z.string().optional(),
+      processes: z.string().optional(),
+      git: z.string().optional(),
+    })
+    .optional(),
 });
 
 import config from "../core/config.js";
@@ -40,7 +47,13 @@ CRITICAL SAFETY RULES:
      "command": "the shell command",
      "explanation": "what it does",
      "riskScore": 1-10 (High risk for rm -rf, sudo, or killing system PIDs),
-     "riskAnalysis": "Specific analysis of flags and targets"
+     "riskAnalysis": "Analysis of flags/targets",
+     "simulation": {
+        "fileCount": "N files will be created/deleted",
+        "spaceImpact": "N MB change",
+        "processes": "Description of PIDs affected",
+        "git": "Branches/commits affected"
+     }
    }`,
     },
   });
@@ -52,5 +65,35 @@ CRITICAL SAFETY RULES:
     throw new Error(
       "AI returned an invalid response format. Please try again.",
     );
+  }
+};
+export const diagnoseErrorFromAI = async (command, stderr) => {
+  const apiKey = config.get("apiKey") || process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error("API Key missing");
+
+  const ai = new GoogleGenAI({ apiKey });
+  const prompt = `Command failed: ${command}\nError: ${stderr}\n\nSuggest a fix.`;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: prompt,
+    config: {
+      systemInstruction: `You are Terminally, an expert debugger. 
+Analyse the error and suggest a fix.
+Response Format (JSON only):
+{
+  "command": "the fix command",
+  "explanation": "why this fixes it",
+  "riskScore": 1-10,
+  "riskAnalysis": "risk details"
+}`,
+    },
+  });
+
+  try {
+    const clean = response.text.replace(/```json|```/g, "").trim();
+    return ResponseSchema.parse(JSON.parse(clean));
+  } catch {
+    throw new Error("Diagnosis failed.");
   }
 };

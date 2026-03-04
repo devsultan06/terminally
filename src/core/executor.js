@@ -16,12 +16,16 @@ export function executeCommand(command) {
       console.error(
         chalk.red(`\n✖ Command failed with exit code: ${shellResult.code}`),
       );
-      return { success: false, code: shellResult.code };
+      return {
+        success: false,
+        code: shellResult.code,
+        stderr: shellResult.stderr,
+      };
     }
 
-    return { success: true, code: 0 };
+    return { success: true, code: 0, stdout: shellResult.stdout };
   } catch (error) {
     console.error(chalk.red(`\n✖ Execution error: ${error.message}`));
-    return { success: false, error: error.message };
+    return { success: false, error: error.message, stderr: error.message };
   }
 }
